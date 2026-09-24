@@ -2,6 +2,7 @@ from fastapi import APIRouter
 
 from app.api.v1 import (
     approvals,
+    demo,
     design,
     dev,
     development,
@@ -24,5 +25,6 @@ api_router.include_router(approvals.router)
 api_router.include_router(design.router)
 api_router.include_router(development.router)
 api_router.include_router(qa.router)
+api_router.include_router(demo.router)
 api_router.include_router(webhooks.router)
 api_router.include_router(dev.router)

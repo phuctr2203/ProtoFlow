@@ -11,7 +11,7 @@ const TABS: Tab[] = [
   { label: 'Design', to: (id) => `/projects/${id}/design` },
   { label: 'Development', to: (id) => `/projects/${id}/development` },
   { label: 'QA', to: (id) => `/projects/${id}/qa` },
-  { label: 'Demo', to: null },
+  { label: 'Demo', to: (id) => `/projects/${id}/demo` },
 ]
 
 export function WorkspaceShell({

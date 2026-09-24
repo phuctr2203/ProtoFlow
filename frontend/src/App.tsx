@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom'
 
+import { DemoRoute } from '@/features/demo/DemoRoute'
 import { DesignRoute } from '@/features/design/DesignRoute'
 import { DevelopmentRoute } from '@/features/development/DevelopmentRoute'
 import { IntelligenceRoute } from '@/features/intelligence/IntelligenceRoute'
@@ -21,6 +22,7 @@ function App() {
       <Route path="/projects/:projectId/design" element={<DesignRoute />} />
       <Route path="/projects/:projectId/development" element={<DevelopmentRoute />} />
       <Route path="/projects/:projectId/qa" element={<QaRoute />} />
+      <Route path="/projects/:projectId/demo" element={<DemoRoute />} />
     </Routes>
   )
 }
