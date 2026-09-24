@@ -2,7 +2,7 @@
 epic: 6
 title: AI-Assisted Development
 phase: 6
-status: Not Started
+status: In Progress
 depends_on: [5]
 fr_covered: [FR-14, FR-15]
 nfr_covered: [NFR5]
@@ -107,13 +107,18 @@ before anything merges.
 - Nothing is auto-merged or auto-deployed.
   → The publisher only opens a PR; it never merges. Base branch is `main`.
 
-### Story 6.5 — Isolated execution (NFR5)
+### Story 6.5 — Isolated execution (NFR5) — Done
 **As** the builder, **I want** generated code to run only in an isolated environment, **so that**
 untrusted code never touches the main app process.
 
 **Acceptance criteria:**
 - Generated code executes only in an isolated environment, never directly in a production/shared
   process (Idea.MD §72, NFR5).
+  → `domain/development/sandbox.py`: `SubprocessSandbox` (default) runs each command in a separate
+  process confined to the workspace cwd, with app secrets scrubbed from the env and a hard timeout;
+  gated `DockerSandbox` (`SANDBOX_MODE=docker`) uses a throwaway, network-less container. All
+  execution of generated code goes through `get_sandbox()`. Tests cover cwd confinement, secret
+  scrubbing, timeout, and exit-code capture.
 
 ### Story 6.6 — Infra: vector DB & object storage — Done
 **As** the builder, **I want** Qdrant and MinIO available, **so that** the generated MVP has

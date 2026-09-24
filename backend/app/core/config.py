@@ -52,6 +52,11 @@ class Settings(BaseSettings):
     github_token: str | None = None
     github_repo: str | None = None  # owner/repo
 
+    # Isolated execution (Epic 6, Story 6.5, NFR5) — generated code runs only via the sandbox.
+    sandbox_mode: str = "subprocess"  # subprocess | docker
+    sandbox_timeout_seconds: int = 120
+    sandbox_image: str = "python:3.12-slim"
+
     # Epic 6 infra — vector retrieval (Qdrant) and artifact/object storage (MinIO), used by
     # the generated document-Q&A MVP. Compose overrides the hosts with service names.
     qdrant_url: str = "http://localhost:6333"
