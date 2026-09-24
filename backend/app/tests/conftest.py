@@ -1,15 +1,27 @@
 from collections.abc import AsyncGenerator
 
+import pytest
 import pytest_asyncio
 from httpx import ASGITransport, AsyncClient
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from sqlalchemy.pool import StaticPool
 
 import app.db.models  # noqa: F401  (register models on Base.metadata)
+from app.core.config import settings
 from app.db.base import Base
 from app.db.database import get_session
 from app.main import app
 from app.workers.queue import get_queue
+
+
+@pytest.fixture(autouse=True)
+def _force_mock_llm():
+    """Tests use the deterministic mock provider regardless of the ambient
+    LLM_PROVIDER env, so the suite never makes real API calls."""
+    original = settings.llm_provider
+    settings.llm_provider = "mock"
+    yield
+    settings.llm_provider = original
 
 
 class FakeQueue:

@@ -31,6 +31,17 @@ services:
       DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-protoflow}:${POSTGRES_PASSWORD:-protoflow}@postgres:5432/${POSTGRES_DB:-protoflow}
       REDIS_URL: redis://redis:6379/0
       CORS_ORIGINS: '["http://localhost:5173"]'
+      LLM_PROVIDER: ${LLM_PROVIDER:-mock}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_BASE_URL: ${OPENAI_BASE_URL:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4o-mini}
+      OLLAMA_API_KEY: ${OLLAMA_API_KEY:-}
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-https://ollama.com/v1}
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-gpt-oss:120b}
+      LANGSMITH_TRACING: ${LANGSMITH_TRACING:-false}
+      LANGSMITH_API_KEY: ${LANGSMITH_API_KEY:-}
+      LANGSMITH_PROJECT: ${LANGSMITH_PROJECT:-protoflow}
+      LANGSMITH_ENDPOINT: ${LANGSMITH_ENDPOINT:-https://api.smith.langchain.com}
     ports:
       - "8000:8000"
     depends_on:
@@ -45,6 +56,17 @@ services:
     environment:
       DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-protoflow}:${POSTGRES_PASSWORD:-protoflow}@postgres:5432/${POSTGRES_DB:-protoflow}
       REDIS_URL: redis://redis:6379/0
+      LLM_PROVIDER: ${LLM_PROVIDER:-mock}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_BASE_URL: ${OPENAI_BASE_URL:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4o-mini}
+      OLLAMA_API_KEY: ${OLLAMA_API_KEY:-}
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-https://ollama.com/v1}
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-gpt-oss:120b}
+      LANGSMITH_TRACING: ${LANGSMITH_TRACING:-false}
+      LANGSMITH_API_KEY: ${LANGSMITH_API_KEY:-}
+      LANGSMITH_PROJECT: ${LANGSMITH_PROJECT:-protoflow}
+      LANGSMITH_ENDPOINT: ${LANGSMITH_ENDPOINT:-https://api.smith.langchain.com}
     depends_on:
       postgres:
         condition: service_healthy

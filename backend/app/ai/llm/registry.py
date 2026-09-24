@@ -8,4 +8,8 @@ def get_llm_provider() -> LLMProvider:
         from app.ai.llm.openai_provider import OpenAICompatibleProvider
 
         return OpenAICompatibleProvider()
+    if settings.llm_provider == "ollama":
+        from app.ai.llm.ollama_provider import OllamaCloudProvider
+
+        return OllamaCloudProvider()
     return MockLLMProvider()
