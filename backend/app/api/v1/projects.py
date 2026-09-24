@@ -6,6 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.database import get_session
 from app.domain.projects import service
+from app.domain.projects.overview import ProjectOverview, get_project_overview
 from app.domain.projects.schemas import ProjectCreate, ProjectRead
 
 router = APIRouter(prefix="/projects", tags=["projects"])
@@ -34,3 +35,9 @@ async def get_project(project_id: uuid.UUID, session: SessionDep) -> ProjectRead
             status_code=status.HTTP_404_NOT_FOUND, detail="Project not found"
         ) from None
     return ProjectRead.model_validate(project)
+
+
+@router.get("/{project_id}/overview", response_model=ProjectOverview)
+async def project_overview(project_id: uuid.UUID, session: SessionDep) -> ProjectOverview:
+    """Cross-phase status of the engagement (FR-20)."""
+    return await get_project_overview(session, project_id)
