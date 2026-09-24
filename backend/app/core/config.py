@@ -40,6 +40,15 @@ class Settings(BaseSettings):
     dev_ollama_base_url: str | None = None
     dev_ollama_model: str | None = None
 
+    # Epic 6 infra — vector retrieval (Qdrant) and artifact/object storage (MinIO), used by
+    # the generated document-Q&A MVP. Compose overrides the hosts with service names.
+    qdrant_url: str = "http://localhost:6333"
+    minio_endpoint: str = "localhost:9000"
+    minio_access_key: str = "protoflow"
+    minio_secret_key: str = "protoflow"
+    minio_bucket: str = "protoflow-artifacts"
+    minio_secure: bool = False
+
     # LangSmith tracing — monitors the LangGraph chains and LLM calls when enabled.
     langsmith_tracing: bool = False
     langsmith_api_key: str | None = None

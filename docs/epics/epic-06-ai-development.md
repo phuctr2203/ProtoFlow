@@ -24,12 +24,18 @@ auto-merged or auto-deployed.
 
 Epic 5 (MVP Design).
 
-## ⚠ Open decision — resolve before building
+## ✓ Resolved decision (Story 6.0)
 
-How the development agents actually generate code — a custom tool-use loop vs. wrapping an existing
-coding-agent engine (Claude Agent SDK / Claude Code, Aider, OpenHands) behind our own Development
-Manager — is unresolved and is the single highest-risk unknown in the product (PRD §11, Idea.MD §67
-note). Story 6.0 is a dedicated spike that must complete and be decided before Stories 6.3+ start.
+**Decision:** wrap the **Claude Agent SDK** (`claude-agent-sdk`, Python) behind our own
+`CodingEngine` interface — mirroring the `LLMProvider` pattern — so the coding agents get a mature
+agentic loop now while staying swappable for an OSS/provider-agnostic engine later (keeps
+provider-specific code isolated, Idea.MD §31/§3437).
+
+**Auth:** the Agent SDK is configured by env, independent of the `DEV_*` provider vars. Use
+`ANTHROPIC_API_KEY` for the real multi-tenant backend — Claude **subscription** tokens
+(`claude setup-token` → `CLAUDE_CODE_OAUTH_TOKEN`) are licensed for individual use only and will hit
+per-person rate limits / breach ToS in a multi-user service, so they are supported for solo/self-host
+only. The Story 6.3 `CodingEngine` will read whichever is set.
 
 ## Key decisions (this epic)
 
@@ -42,7 +48,7 @@ note). Story 6.0 is a dedicated spike that must complete and be decided before S
 
 ## Stories
 
-### Story 6.0 — Coding-agent approach spike (blocks 6.3+)
+### Story 6.0 — Coding-agent approach spike (blocks 6.3+) — Done
 **As** the builder, **I want** the code-generation mechanism decided from evidence, **so that** the
 riskiest part of the product isn't built on an assumption.
 
@@ -50,14 +56,18 @@ riskiest part of the product isn't built on an assumption.
 - Options (custom tool-use loop vs. wrapping an existing engine) are evaluated against the
   document-Q&A MVP.
 - A decision is recorded with rationale; the shape of Stories 6.3–6.5 follows from it.
+  → Decided: wrap the Claude Agent SDK behind a `CodingEngine` interface (see Resolved decision above).
 
-### Story 6.1 — Development manager & task breakdown (FR-14)
+### Story 6.1 — Development manager & task breakdown (FR-14) — Done
 **As** the builder, **I want** the MVP broken into an ordered task list, **so that** implementation
 proceeds in a sensible sequence.
 
 **Acceptance criteria:**
 - Development Manager inspects the MVP spec and produces an ordered set of development tasks
   (Idea.MD §28, §30).
+  → `ai/graphs/development_plan.py` (LangGraph, traced) + `domain/development/service.py`, using the
+  developer-team LLM via `get_dev_llm_provider()`. Gated on an approved MVP (FR-11) and a design.
+  Exposed at `GET/POST /projects/{id}/development`; also runnable as the `CODE_GENERATION` job.
 
 ### Story 6.2 — Repository inspection (FR-15)
 **As** the builder, **I want** agents to understand existing code before writing more, **so that**
@@ -91,13 +101,16 @@ untrusted code never touches the main app process.
 - Generated code executes only in an isolated environment, never directly in a production/shared
   process (Idea.MD §72, NFR5).
 
-### Story 6.6 — Infra: vector DB & object storage
+### Story 6.6 — Infra: vector DB & object storage — Done
 **As** the builder, **I want** Qdrant and MinIO available, **so that** the generated MVP has
 retrieval and document storage.
 
 **Acceptance criteria:**
 - `qdrant` and `minio` services added to `docker-compose.yml`.
+  → Added with volumes; `QDRANT_URL` and `MINIO_*` settings in config, passed through to backend/worker.
 - `CODE_GENERATION` job type wired into the worker.
+  → `process_code_generation` registered in the Arq worker (runs the Development Manager; Story 6.3
+  will extend it to implement the tasks and open a PR).
 
 ## Epic Definition of Done
 
