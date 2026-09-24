@@ -77,7 +77,13 @@ NFR9 (Cost/Portability): [ASSUMPTION] No LLM budget/quota enforcement required a
 
 ### UX Design Requirements
 
-None — no UX design contract (`DESIGN.md`/`EXPERIENCE.md`) exists for this project yet.
+No text UX contract (`DESIGN.md`/`EXPERIENCE.md`) exists yet. The visual UI design lives as a Claude
+design canvas — the reference for all frontend work:
+
+**https://claude.ai/artifact/1f1xq2MaPnLgwsH34ahC9W**
+
+It covers every workspace screen (Projects, Overview/agent pipeline, Meetings, Intelligence, MVP,
+Design, Development, QA, Demo). Build UI stories to match it.
 
 ### FR Coverage Map
 
