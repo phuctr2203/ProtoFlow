@@ -18,6 +18,15 @@ class DevelopmentPlan(BaseModel):
     tasks: list[DevelopmentTask] = Field(default_factory=list)
 
 
+class CodingResult(BaseModel):
+    """Outcome of a coding-engine run implementing the development plan (FR-15)."""
+
+    summary: str = ""
+    files_changed: list[str] = Field(default_factory=list)
+    tests_written: list[str] = Field(default_factory=list)
+    branch: str | None = None
+
+
 class RepositoryInspection(BaseModel):
     """Structured facts about an existing repository, gathered before any code is written
     so the coding agents follow existing conventions instead of rewriting (Idea.MD §31 Rule 1)."""

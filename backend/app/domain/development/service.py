@@ -1,16 +1,20 @@
 import json
 import uuid
 from datetime import UTC, datetime
+from pathlib import Path
 
 from sqlalchemy import desc, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.ai.engines.registry import get_coding_engine
 from app.ai.graphs.development_plan import run_development_plan
 from app.ai.llm.registry import get_dev_llm_provider
-from app.ai.schemas.development import DevelopmentPlan
-from app.db.models.development import DevelopmentPlanRecord
+from app.ai.schemas.development import CodingResult, DevelopmentPlan
+from app.core.config import settings
+from app.db.models.development import CodeGenerationRecord, DevelopmentPlanRecord
 from app.db.models.processing import JobStatus, ProcessingJob
 from app.domain.design import service as design_service
+from app.domain.development.inspection import inspect_repository
 from app.domain.mvp.approval import require_approved_mvp
 
 
@@ -67,7 +71,62 @@ async def get_latest_development_plan(
     )
 
 
-async def run_development_job(
+async def generate_code(session: AsyncSession, project_id: uuid.UUID) -> CodeGenerationRecord:
+    """Implement the MVP from its development plan using the configured coding engine (FR-15).
+    Reuses generate_development_plan, which enforces the approved-MVP (FR-11) and design gates."""
+    plan_record = await generate_development_plan(session, project_id)
+    plan = DevelopmentPlan.model_validate(plan_record.data)
+    approved = await require_approved_mvp(session, project_id)
+
+    workspace = Path(settings.workspace_root) / str(project_id)
+    workspace.mkdir(parents=True, exist_ok=True)
+    inspection = inspect_repository(workspace)
+
+    engine = get_coding_engine()
+    result: CodingResult = await engine.implement(
+        workspace=str(workspace),
+        plan=plan,
+        inspection=inspection,
+        mvp_text=json.dumps(approved.data, ensure_ascii=False),
+    )
+
+    existing = await session.scalar(
+        select(CodeGenerationRecord).where(
+            CodeGenerationRecord.project_id == project_id,
+            CodeGenerationRecord.mvp_version == approved.version,
+        )
+    )
+    payload = result.model_dump(mode="json")
+    if existing is not None:
+        existing.data = payload
+        existing.engine = engine.name
+        record = existing
+    else:
+        record = CodeGenerationRecord(
+            project_id=project_id,
+            mvp_version=approved.version,
+            engine=engine.name,
+            data=payload,
+        )
+        session.add(record)
+
+    await session.commit()
+    await session.refresh(record)
+    return record
+
+
+async def get_latest_code_generation(
+    session: AsyncSession, project_id: uuid.UUID
+) -> CodeGenerationRecord | None:
+    return await session.scalar(
+        select(CodeGenerationRecord)
+        .where(CodeGenerationRecord.project_id == project_id)
+        .order_by(desc(CodeGenerationRecord.created_at))
+        .limit(1)
+    )
+
+
+async def run_code_generation_job(
     session: AsyncSession, project_id: uuid.UUID, job_id: uuid.UUID
 ) -> None:
     job = await session.get(ProcessingJob, job_id)
@@ -79,7 +138,7 @@ async def run_development_job(
     await session.commit()
 
     try:
-        await generate_development_plan(session, project_id)
+        await generate_code(session, project_id)
     except Exception as exc:  # noqa: BLE001 - captured to the job record
         job.status = JobStatus.FAILED
         job.error_message = str(exc)

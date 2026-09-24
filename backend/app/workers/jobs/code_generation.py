@@ -7,13 +7,13 @@ from app.domain.meetings.service import create_job
 
 
 async def process_code_generation(ctx: dict, project_id: str) -> None:
-    """CODE_GENERATION job (Epic 6). Phase 1 (Story 6.1): the Development Manager breaks the
-    approved, designed MVP into an ordered task list. Story 6.3 will extend this job to have
-    the coding agents implement those tasks via the Claude Agent SDK and open a PR."""
+    """CODE_GENERATION job (Epic 6): the Development Manager breaks the approved, designed MVP into
+    an ordered task list, then the configured coding engine implements it in a workspace
+    (Stories 6.1 + 6.3). Story 6.4 will open a PR from the result."""
     async with SessionLocal() as session:
         job = await create_job(
             session,
             job_type=ProcessingJobType.CODE_GENERATION,
             project_id=uuid.UUID(project_id),
         )
-        await development_service.run_development_job(session, uuid.UUID(project_id), job.id)
+        await development_service.run_code_generation_job(session, uuid.UUID(project_id), job.id)

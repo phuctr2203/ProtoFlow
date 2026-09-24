@@ -73,6 +73,10 @@ services:
       MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY:-protoflow}
       MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:-protoflow}
       MINIO_BUCKET: ${MINIO_BUCKET:-protoflow-artifacts}
+      CODING_ENGINE: ${CODING_ENGINE:-mock}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      CLAUDE_CODE_OAUTH_TOKEN: ${CLAUDE_CODE_OAUTH_TOKEN:-}
+      WORKSPACE_ROOT: ${WORKSPACE_ROOT:-/tmp/protoflow-workspaces}
     ports:
       - "8000:8000"
     depends_on:
@@ -114,6 +118,10 @@ services:
       MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY:-protoflow}
       MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:-protoflow}
       MINIO_BUCKET: ${MINIO_BUCKET:-protoflow-artifacts}
+      CODING_ENGINE: ${CODING_ENGINE:-mock}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      CLAUDE_CODE_OAUTH_TOKEN: ${CLAUDE_CODE_OAUTH_TOKEN:-}
+      WORKSPACE_ROOT: ${WORKSPACE_ROOT:-/tmp/protoflow-workspaces}
     depends_on:
       postgres:
         condition: service_healthy

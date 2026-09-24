@@ -79,14 +79,20 @@ they avoid unnecessary rewrites and follow conventions.
   `RepositoryInspection` (languages, frameworks, entry points, structure). Story 6.3 feeds this to
   the coding agents so they follow existing conventions.
 
-### Story 6.3 — Coding agents implement the MVP (FR-15)
+### Story 6.3 — Coding agents implement the MVP (FR-15) — In progress
 **As** a consultant, **I want** the designed MVP implemented with tests, **so that** there's real
 working code to demo.
 
 **Acceptance criteria:**
 - Frontend / Backend / AI Engineer agent roles implement the MVP and write accompanying tests
   (exact shape per the Story 6.0 decision).
+  → `CodingEngine` abstraction (`ai/engines/`) with a deterministic `MockCodingEngine` (default,
+  tested) and a gated `ClaudeAgentEngine` (lazy-imported, `CODING_ENGINE=claude`, auth via
+  `ANTHROPIC_API_KEY`). Wired into the `CODE_GENERATION` job and `GET/POST /projects/{id}/code`;
+  results persisted (`code_generations`, migration 0008).
 - Working code is generated for the document-Q&A sample MVP.
+  → Mock engine scaffolds the workspace offline; **live Agent SDK run needs `ANTHROPIC_API_KEY`
+  and a Node-enabled image — pending (ties into Story 6.5 isolated execution).**
 
 ### Story 6.4 — GitHub integration (FR-15)
 **As** a consultant, **I want** a pull request opened for the generated code, **so that** I review

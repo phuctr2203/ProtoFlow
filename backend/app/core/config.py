@@ -40,6 +40,13 @@ class Settings(BaseSettings):
     dev_ollama_base_url: str | None = None
     dev_ollama_model: str | None = None
 
+    # Coding engine (Epic 6, Story 6.3) — "mock" scaffolds offline; "claude" wraps the Claude
+    # Agent SDK (needs anthropic_api_key, or claude_code_oauth_token for solo use only).
+    coding_engine: str = "mock"
+    anthropic_api_key: str | None = None
+    claude_code_oauth_token: str | None = None
+    workspace_root: str = "/tmp/protoflow-workspaces"
+
     # Epic 6 infra — vector retrieval (Qdrant) and artifact/object storage (MinIO), used by
     # the generated document-Q&A MVP. Compose overrides the hosts with service names.
     qdrant_url: str = "http://localhost:6333"
