@@ -59,9 +59,15 @@ class OpenAICompatibleProvider(_OpenAICompatibleBase):
 
     name = "openai"
 
-    def __init__(self) -> None:
+    def __init__(
+        self,
+        *,
+        model: str | None = None,
+        api_key: str | None = None,
+        base_url: str | None = None,
+    ) -> None:
         super().__init__(
-            model=settings.openai_model,
-            api_key=settings.openai_api_key,
-            base_url=settings.openai_base_url,
+            model=model or settings.openai_model,
+            api_key=api_key or settings.openai_api_key,
+            base_url=base_url or settings.openai_base_url,
         )

@@ -29,6 +29,17 @@ class Settings(BaseSettings):
     ollama_base_url: str = "https://ollama.com/v1"
     ollama_model: str = "gpt-oss:120b"
 
+    # Developer-team LLM (Epics 6-7: AI development & QA). Each override is optional and
+    # inherits the shared value above when unset, so the dev/QA agents can later run on a
+    # different provider or model without affecting the product team (Epics 2-5).
+    dev_llm_provider: str | None = None
+    dev_openai_api_key: str | None = None
+    dev_openai_base_url: str | None = None
+    dev_openai_model: str | None = None
+    dev_ollama_api_key: str | None = None
+    dev_ollama_base_url: str | None = None
+    dev_ollama_model: str | None = None
+
     # LangSmith tracing — monitors the LangGraph chains and LLM calls when enabled.
     langsmith_tracing: bool = False
     langsmith_api_key: str | None = None

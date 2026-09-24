@@ -35,6 +35,10 @@ note). Story 6.0 is a dedicated spike that must complete and be decided before S
 
 - `qdrant` and `minio` are added to Docker Compose here — first genuine need (RAG for the generated
   document-Q&A MVP, and document/artifact storage) (addendum, service timing).
+- The developer team gets its own LLM via `get_dev_llm_provider()` (a separate profile in
+  `ai/llm/registry.py`, configured by `DEV_*` env vars), so code-gen and QA can run on a different
+  provider/model from the product team. It inherits the shared config until `DEV_*` is set. Dev/QA
+  agents (this epic and Epic 7) must resolve their LLM through this accessor, not `get_llm_provider()`.
 
 ## Stories
 

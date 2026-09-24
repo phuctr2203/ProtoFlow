@@ -43,11 +43,17 @@ class OllamaCloudProvider(_OpenAICompatibleBase):
 
     name = "ollama"
 
-    def __init__(self) -> None:
+    def __init__(
+        self,
+        *,
+        model: str | None = None,
+        api_key: str | None = None,
+        base_url: str | None = None,
+    ) -> None:
         super().__init__(
-            model=settings.ollama_model,
-            api_key=settings.ollama_api_key,
-            base_url=settings.ollama_base_url,
+            model=model or settings.ollama_model,
+            api_key=api_key or settings.ollama_api_key,
+            base_url=base_url or settings.ollama_base_url,
         )
 
     async def extract(self, *, kind, transcript_text, response_model, hint=None):  # type: ignore[no-untyped-def]
