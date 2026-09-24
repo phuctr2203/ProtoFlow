@@ -2,7 +2,7 @@
 epic: 0
 title: Foundation
 phase: 0
-status: Not Started
+status: In Progress
 storiesDetailed: true
 depends_on: []
 fr_covered: []
