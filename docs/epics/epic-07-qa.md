@@ -2,7 +2,7 @@
 epic: 7
 title: Automated QA
 phase: 7
-status: In Progress
+status: Done
 depends_on: [6]
 fr_covered: [FR-16, FR-17]
 sources:
@@ -57,7 +57,7 @@ coverage is auditable end to end.
 - Every `MUST_HAVE` requirement has at least one mapped test before the Project can be marked
   demo-ready.
 
-### Story 7.5 — QA page (FR-20 partial)
+### Story 7.5 — QA page (FR-20 partial) — Done
 **As** a consultant, **I want** to view the QA report, **so that** I can judge readiness at a glance.
 
 **Acceptance criteria:**

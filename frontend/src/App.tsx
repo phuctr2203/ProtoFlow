@@ -1,10 +1,12 @@
 import { Route, Routes } from 'react-router-dom'
 
 import { DesignRoute } from '@/features/design/DesignRoute'
+import { DevelopmentRoute } from '@/features/development/DevelopmentRoute'
 import { IntelligenceRoute } from '@/features/intelligence/IntelligenceRoute'
 import { MvpRoute } from '@/features/mvp/MvpRoute'
 import { ProjectWorkspace } from '@/features/projects/ProjectWorkspace'
 import { ProjectsPage } from '@/features/projects/ProjectsPage'
+import { QaRoute } from '@/features/qa/QaRoute'
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
       />
       <Route path="/projects/:projectId/mvp" element={<MvpRoute />} />
       <Route path="/projects/:projectId/design" element={<DesignRoute />} />
+      <Route path="/projects/:projectId/development" element={<DevelopmentRoute />} />
+      <Route path="/projects/:projectId/qa" element={<QaRoute />} />
     </Routes>
   )
 }
