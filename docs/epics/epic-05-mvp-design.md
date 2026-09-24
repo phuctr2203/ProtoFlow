@@ -2,7 +2,7 @@
 epic: 5
 title: MVP Design
 phase: 5
-status: Not Started
+status: In Progress
 depends_on: [4]
 fr_covered: [FR-12, FR-13]
 sources:

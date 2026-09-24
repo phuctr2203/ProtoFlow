@@ -1,7 +1,9 @@
 from pydantic import BaseModel
 
 from app.ai.evaluation.expected import build
+from app.ai.evaluation.expected_design import build_design
 from app.ai.evaluation.expected_mvp import build_mvp
+from app.ai.schemas.design import SolutionDesign, UXDesign
 from app.ai.schemas.intelligence import (
     ActionItemList,
     ConstraintList,
@@ -22,7 +24,24 @@ class MockLLMProvider:
 
     async def extract(self, *, kind, transcript_text, response_model, hint=None):  # type: ignore[no-untyped-def]
         by_kind: dict[str, BaseModel]
-        if kind.startswith("mvp"):
+        if kind.startswith("design"):
+            design = build_design()
+            by_kind = {
+                "design_ux": UXDesign(
+                    user_journey=design.user_journey,
+                    screens=design.screens,
+                    navigation=design.navigation,
+                    ui_states=design.ui_states,
+                ),
+                "design_solution": SolutionDesign(
+                    components=design.components,
+                    apis=design.apis,
+                    data_model=design.data_model,
+                    ai_workflow=design.ai_workflow,
+                    tech_decisions=design.tech_decisions,
+                ),
+            }
+        elif kind.startswith("mvp"):
             mvp = build_mvp()
             by_kind = {
                 "mvp_pm": MVPCore(

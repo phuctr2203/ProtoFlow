@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom'
 
+import { DesignRoute } from '@/features/design/DesignRoute'
 import { IntelligenceRoute } from '@/features/intelligence/IntelligenceRoute'
 import { MvpRoute } from '@/features/mvp/MvpRoute'
 import { ProjectWorkspace } from '@/features/projects/ProjectWorkspace'
@@ -15,6 +16,7 @@ function App() {
         element={<IntelligenceRoute />}
       />
       <Route path="/projects/:projectId/mvp" element={<MvpRoute />} />
+      <Route path="/projects/:projectId/design" element={<DesignRoute />} />
     </Routes>
   )
 }

@@ -9,10 +9,12 @@ from app.db.database import get_session
 from app.db.models.approval import ApprovalAction
 from app.domain.mvp import approval
 from app.domain.mvp.approval import MVPVersionNotFoundError
+from app.workers.queue import get_queue
 
 router = APIRouter(tags=["mvp"])
 
 SessionDep = Annotated[AsyncSession, Depends(get_session)]
+QueueDep = Annotated[object, Depends(get_queue)]
 
 
 class ApprovalRequest(BaseModel):
@@ -29,7 +31,7 @@ class ApprovalResponse(BaseModel):
 
 @router.post("/projects/{project_id}/mvp/approve", response_model=ApprovalResponse)
 async def decide_mvp(
-    project_id: uuid.UUID, data: ApprovalRequest, session: SessionDep
+    project_id: uuid.UUID, data: ApprovalRequest, session: SessionDep, queue: QueueDep
 ) -> ApprovalResponse:
     try:
         record = await approval.decide(
@@ -42,4 +44,9 @@ async def decide_mvp(
         )
     except MVPVersionNotFoundError as exc:
         raise HTTPException(status.HTTP_404_NOT_FOUND, str(exc)) from None
+
+    # On approval, kick off design generation automatically (Idea.MD §66/§70).
+    if data.action == ApprovalAction.APPROVE:
+        await queue.enqueue_job("process_design", str(project_id))
+
     return ApprovalResponse(version=record.version, status=record.status)
