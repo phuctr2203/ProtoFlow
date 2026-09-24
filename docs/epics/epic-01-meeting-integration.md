@@ -2,7 +2,7 @@
 epic: 1
 title: Meeting Integration
 phase: 1
-status: Not Started
+status: In Progress
 depends_on: [0]
 fr_covered: [FR-1, FR-2, FR-3]
 nfr_covered: [NFR1, NFR2, NFR3, NFR4]

@@ -1,11 +1,14 @@
-import { WorkspaceShell } from '@/components/WorkspaceShell'
+import { Route, Routes } from 'react-router-dom'
+
+import { ProjectWorkspace } from '@/features/projects/ProjectWorkspace'
 import { ProjectsPage } from '@/features/projects/ProjectsPage'
 
 function App() {
   return (
-    <WorkspaceShell>
-      <ProjectsPage />
-    </WorkspaceShell>
+    <Routes>
+      <Route path="/" element={<ProjectsPage />} />
+      <Route path="/projects/:projectId/meetings" element={<ProjectWorkspace />} />
+    </Routes>
   )
 }
 

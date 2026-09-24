@@ -39,6 +39,18 @@ services:
       redis:
         condition: service_healthy
 
+  worker:
+    build: ./backend
+    command: ["sh", "-c", "uv run arq app.workers.worker.WorkerSettings"]
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-protoflow}:${POSTGRES_PASSWORD:-protoflow}@postgres:5432/${POSTGRES_DB:-protoflow}
+      REDIS_URL: redis://redis:6379/0
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
   frontend:
     build: ./frontend
     environment:

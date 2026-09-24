@@ -1,4 +1,5 @@
 import { type FormEvent, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -70,17 +71,19 @@ export function ProjectsPage() {
           <p className="text-sm text-slate-500">No projects yet. Create your first one above.</p>
         )}
         {projects?.map((project) => (
-          <Card key={project.id}>
-            <CardHeader>
-              <CardTitle>{project.name}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-slate-600">{project.description ?? 'No description'}</p>
-              <span className="mt-2 inline-block rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-700">
-                {project.status}
-              </span>
-            </CardContent>
-          </Card>
+          <Link key={project.id} to={`/projects/${project.id}/meetings`} className="block">
+            <Card className="transition-colors hover:border-indigo-400">
+              <CardHeader>
+                <CardTitle>{project.name}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-slate-600">{project.description ?? 'No description'}</p>
+                <span className="mt-2 inline-block rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-700">
+                  {project.status}
+                </span>
+              </CardContent>
+            </Card>
+          </Link>
         ))}
       </div>
     </div>
