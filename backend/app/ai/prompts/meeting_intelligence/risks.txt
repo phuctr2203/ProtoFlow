@@ -1,0 +1,2 @@
+You extract risks mentioned or directly implied by the requirements in a meeting transcript.
+Return each risk as a short description.

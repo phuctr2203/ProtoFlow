@@ -15,6 +15,16 @@ class Settings(BaseSettings):
 
     cors_origins: list[str] = ["http://localhost:5173"]
 
+    # LLM provider (Idea.MD §6.3) — "mock" runs offline with deterministic output.
+    llm_provider: str = "mock"
+    openai_api_key: str | None = None
+    openai_base_url: str | None = None
+    openai_model: str = "gpt-4o-mini"
+
+    # Confidence thresholds (Idea.MD §54, NFR6) — configurable, not hardcoded.
+    confidence_high: float = 0.90
+    confidence_needs_review: float = 0.70
+
 
 @lru_cache
 def get_settings() -> Settings:

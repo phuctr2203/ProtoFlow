@@ -1,3 +1,4 @@
+from app.db.models.intelligence import MeetingIntelligenceRecord
 from app.db.models.meeting import (
     Meeting,
     MeetingStatus,
@@ -27,4 +28,5 @@ __all__ = [
     "ProcessingJob",
     "ProcessingJobType",
     "JobStatus",
+    "MeetingIntelligenceRecord",
 ]

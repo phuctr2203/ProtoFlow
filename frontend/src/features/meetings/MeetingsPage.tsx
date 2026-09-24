@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import { Button } from '@/components/ui/button'
 import type { MeetingStatus } from './types'
@@ -81,6 +82,7 @@ export function MeetingsPage({ projectId }: { projectId: string }) {
                 <th className="px-4 py-2 font-semibold">Meeting</th>
                 <th className="px-4 py-2 font-semibold">Provider</th>
                 <th className="px-4 py-2 font-semibold">Status</th>
+                <th className="px-4 py-2 font-semibold">Intelligence</th>
               </tr>
             </thead>
             <tbody>
@@ -90,6 +92,14 @@ export function MeetingsPage({ projectId }: { projectId: string }) {
                   <td className="px-4 py-3 text-slate-500">{m.provider}</td>
                   <td className="px-4 py-3">
                     <StatusBadge status={m.status} />
+                  </td>
+                  <td className="px-4 py-3">
+                    <Link
+                      to={`/projects/${projectId}/meetings/${m.id}/intelligence`}
+                      className="text-sm font-semibold text-indigo-600 hover:text-indigo-800"
+                    >
+                      View →
+                    </Link>
                   </td>
                 </tr>
               ))}

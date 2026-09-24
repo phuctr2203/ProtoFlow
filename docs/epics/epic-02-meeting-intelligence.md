@@ -2,7 +2,7 @@
 epic: 2
 title: Meeting Intelligence
 phase: 2
-status: Not Started
+status: In Progress
 depends_on: [1]
 fr_covered: [FR-4, FR-5, FR-6, FR-7]
 nfr_covered: [NFR6, NFR9]
