@@ -69,12 +69,15 @@ proceeds in a sensible sequence.
   developer-team LLM via `get_dev_llm_provider()`. Gated on an approved MVP (FR-11) and a design.
   Exposed at `GET/POST /projects/{id}/development`; also runnable as the `CODE_GENERATION` job.
 
-### Story 6.2 — Repository inspection (FR-15)
+### Story 6.2 — Repository inspection (FR-15) — Done
 **As** the builder, **I want** agents to understand existing code before writing more, **so that**
 they avoid unnecessary rewrites and follow conventions.
 
 **Acceptance criteria:**
 - A repository-inspection step runs before code is written (Idea.MD §31 Rule 1).
+  → `domain/development/inspection.py` `inspect_repository()` — a deterministic scan producing
+  `RepositoryInspection` (languages, frameworks, entry points, structure). Story 6.3 feeds this to
+  the coding agents so they follow existing conventions.
 
 ### Story 6.3 — Coding agents implement the MVP (FR-15)
 **As** a consultant, **I want** the designed MVP implemented with tests, **so that** there's real
