@@ -2,7 +2,7 @@
 epic: 3
 title: MVP Definition
 phase: 3
-status: Not Started
+status: In Progress
 depends_on: [2]
 fr_covered: [FR-8, FR-9]
 nfr_covered: [NFR7]

@@ -6,6 +6,7 @@ from app.db.models.meeting import (
     TranscriptSegment,
     TranscriptStatus,
 )
+from app.db.models.mvp import MVPSpecificationRecord, MVPStatus
 from app.db.models.processing import (
     JobStatus,
     MeetingEvent,
@@ -29,4 +30,6 @@ __all__ = [
     "ProcessingJobType",
     "JobStatus",
     "MeetingIntelligenceRecord",
+    "MVPSpecificationRecord",
+    "MVPStatus",
 ]

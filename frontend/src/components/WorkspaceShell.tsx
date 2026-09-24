@@ -1,7 +1,18 @@
 import type { ReactNode } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 
-const OTHER_TABS = ['Overview', 'Intelligence', 'MVP', 'Design', 'Development', 'QA', 'Demo']
+type Tab = { label: string; to: ((projectId: string) => string) | null }
+
+const TABS: Tab[] = [
+  { label: 'Overview', to: null },
+  { label: 'Meetings', to: (id) => `/projects/${id}/meetings` },
+  { label: 'Intelligence', to: null },
+  { label: 'MVP', to: (id) => `/projects/${id}/mvp` },
+  { label: 'Design', to: null },
+  { label: 'Development', to: null },
+  { label: 'QA', to: null },
+  { label: 'Demo', to: null },
+]
 
 export function WorkspaceShell({
   projectId,
@@ -18,27 +29,31 @@ export function WorkspaceShell({
           ← All projects
         </Link>
         <nav className="space-y-1">
-          <NavLink
-            to={`/projects/${projectId}/meetings`}
-            className={({ isActive }) =>
-              `block rounded-md px-3 py-2 text-sm ${
-                isActive
-                  ? 'bg-indigo-50 font-semibold text-indigo-700'
-                  : 'text-slate-600 hover:bg-slate-100'
-              }`
-            }
-          >
-            Meetings
-          </NavLink>
-          {OTHER_TABS.map((tab) => (
-            <span
-              key={tab}
-              className="block cursor-not-allowed rounded-md px-3 py-2 text-sm text-slate-300"
-              title="Coming in a later epic"
-            >
-              {tab}
-            </span>
-          ))}
+          {TABS.map((tab) =>
+            tab.to ? (
+              <NavLink
+                key={tab.label}
+                to={tab.to(projectId)}
+                className={({ isActive }) =>
+                  `block rounded-md px-3 py-2 text-sm ${
+                    isActive
+                      ? 'bg-indigo-50 font-semibold text-indigo-700'
+                      : 'text-slate-600 hover:bg-slate-100'
+                  }`
+                }
+              >
+                {tab.label}
+              </NavLink>
+            ) : (
+              <span
+                key={tab.label}
+                className="block cursor-not-allowed rounded-md px-3 py-2 text-sm text-slate-300"
+                title="Coming in a later epic"
+              >
+                {tab.label}
+              </span>
+            ),
+          )}
         </nav>
       </aside>
       <main className="flex-1">{children}</main>
