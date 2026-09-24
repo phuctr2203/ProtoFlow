@@ -77,6 +77,9 @@ services:
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
       CLAUDE_CODE_OAUTH_TOKEN: ${CLAUDE_CODE_OAUTH_TOKEN:-}
       WORKSPACE_ROOT: ${WORKSPACE_ROOT:-/tmp/protoflow-workspaces}
+      GIT_PUBLISHER: ${GIT_PUBLISHER:-mock}
+      GITHUB_TOKEN: ${GITHUB_TOKEN:-}
+      GITHUB_REPO: ${GITHUB_REPO:-}
     ports:
       - "8000:8000"
     depends_on:
@@ -122,6 +125,9 @@ services:
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
       CLAUDE_CODE_OAUTH_TOKEN: ${CLAUDE_CODE_OAUTH_TOKEN:-}
       WORKSPACE_ROOT: ${WORKSPACE_ROOT:-/tmp/protoflow-workspaces}
+      GIT_PUBLISHER: ${GIT_PUBLISHER:-mock}
+      GITHUB_TOKEN: ${GITHUB_TOKEN:-}
+      GITHUB_REPO: ${GITHUB_REPO:-}
     depends_on:
       postgres:
         condition: service_healthy

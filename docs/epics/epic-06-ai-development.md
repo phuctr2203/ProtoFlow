@@ -94,13 +94,18 @@ working code to demo.
   → Mock engine scaffolds the workspace offline; **live Agent SDK run needs `ANTHROPIC_API_KEY`
   and a Node-enabled image — pending (ties into Story 6.5 isolated execution).**
 
-### Story 6.4 — GitHub integration (FR-15)
+### Story 6.4 — GitHub integration (FR-15) — In progress
 **As** a consultant, **I want** a pull request opened for the generated code, **so that** I review
 before anything merges.
 
 **Acceptance criteria:**
 - Branch + PR are created (Idea.MD §27, §32).
+  → `GitPublisher` abstraction (`domain/development/publish.py`): `MockGitPublisher` (default,
+  offline, returns a branch + placeholder PR URL) and a gated `GitHubPublisher`
+  (`GIT_PUBLISHER=github`, needs `GITHUB_TOKEN` + `GITHUB_REPO`). Wired into `generate_code`; the
+  PR URL is persisted on the code-generation record. **Live push + PR needs a token/repo — pending.**
 - Nothing is auto-merged or auto-deployed.
+  → The publisher only opens a PR; it never merges. Base branch is `main`.
 
 ### Story 6.5 — Isolated execution (NFR5)
 **As** the builder, **I want** generated code to run only in an isolated environment, **so that**

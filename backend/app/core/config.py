@@ -47,6 +47,11 @@ class Settings(BaseSettings):
     claude_code_oauth_token: str | None = None
     workspace_root: str = "/tmp/protoflow-workspaces"
 
+    # Git publishing (Epic 6, Story 6.4) — "mock" offline; "github" opens a real PR (never merges).
+    git_publisher: str = "mock"
+    github_token: str | None = None
+    github_repo: str | None = None  # owner/repo
+
     # Epic 6 infra — vector retrieval (Qdrant) and artifact/object storage (MinIO), used by
     # the generated document-Q&A MVP. Compose overrides the hosts with service names.
     qdrant_url: str = "http://localhost:6333"

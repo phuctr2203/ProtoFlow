@@ -70,6 +70,7 @@ async def test_code_generation_writes_workspace_and_persists(client, session_fac
     assert body["engine"] == "mock"
     assert body["result"]["files_changed"]
     assert body["result"]["branch"]
+    assert body["result"]["pull_request_url"]  # Story 6.4: a PR is opened
 
     # Files were actually materialized in the workspace.
     workspace = Path(settings.workspace_root) / project_id

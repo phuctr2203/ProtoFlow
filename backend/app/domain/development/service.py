@@ -15,6 +15,7 @@ from app.db.models.development import CodeGenerationRecord, DevelopmentPlanRecor
 from app.db.models.processing import JobStatus, ProcessingJob
 from app.domain.design import service as design_service
 from app.domain.development.inspection import inspect_repository
+from app.domain.development.publish import get_git_publisher
 from app.domain.mvp.approval import require_approved_mvp
 
 
@@ -89,6 +90,17 @@ async def generate_code(session: AsyncSession, project_id: uuid.UUID) -> CodeGen
         inspection=inspection,
         mvp_text=json.dumps(approved.data, ensure_ascii=False),
     )
+
+    # Open a pull request for the generated code (FR-15) — never auto-merged/deployed.
+    publisher = get_git_publisher()
+    pr = await publisher.publish(
+        workspace=str(workspace),
+        branch=result.branch or "protoflow/generated-mvp",
+        title=f"ProtoFlow MVP v{approved.version}",
+        body=result.summary,
+    )
+    result.branch = pr.branch
+    result.pull_request_url = pr.url
 
     existing = await session.scalar(
         select(CodeGenerationRecord).where(

@@ -25,6 +25,15 @@ class CodingResult(BaseModel):
     files_changed: list[str] = Field(default_factory=list)
     tests_written: list[str] = Field(default_factory=list)
     branch: str | None = None
+    pull_request_url: str | None = None
+
+
+class PullRequest(BaseModel):
+    """A pull request opened for generated code (FR-15). Never auto-merged or deployed."""
+
+    branch: str
+    url: str
+    number: int | None = None
 
 
 class RepositoryInspection(BaseModel):
