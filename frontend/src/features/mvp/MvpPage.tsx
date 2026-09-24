@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import type { Scope } from './types'
-import { useGenerateMvp, useMvp } from './hooks'
+import { useDecideMvp, useGenerateMvp, useMvp } from './hooks'
 
 const SCOPES: { key: Scope; label: string; color: string }[] = [
   { key: 'MUST_HAVE', label: 'Must have', color: 'text-red-700' },
@@ -11,6 +11,7 @@ const SCOPES: { key: Scope; label: string; color: string }[] = [
 export function MvpPage({ projectId }: { projectId: string }) {
   const { data, isLoading, isError } = useMvp(projectId)
   const generate = useGenerateMvp(projectId)
+  const decide = useDecideMvp(projectId)
 
   if (isLoading) return <p className="p-6 text-sm text-slate-500">Loading MVP…</p>
 
@@ -48,6 +49,31 @@ export function MvpPage({ projectId }: { projectId: string }) {
           </span>
         </div>
       </div>
+
+      {data.status !== 'APPROVED' && (
+        <div className="flex flex-wrap gap-2">
+          <Button
+            disabled={decide.isPending}
+            onClick={() => decide.mutate({ version: data.version, action: 'APPROVE' })}
+          >
+            Approve
+          </Button>
+          <Button
+            variant="outline"
+            disabled={decide.isPending}
+            onClick={() => decide.mutate({ version: data.version, action: 'REQUEST_REVISION' })}
+          >
+            Request revision
+          </Button>
+          <Button
+            variant="outline"
+            disabled={decide.isPending}
+            onClick={() => decide.mutate({ version: data.version, action: 'REJECT' })}
+          >
+            Reject
+          </Button>
+        </div>
+      )}
 
       <section className="rounded-lg border border-slate-200 bg-white p-4">
         <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-400">Objective</h2>

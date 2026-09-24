@@ -1,3 +1,4 @@
+from app.db.models.approval import ApprovalAction, MVPApproval
 from app.db.models.intelligence import MeetingIntelligenceRecord
 from app.db.models.meeting import (
     Meeting,
@@ -32,4 +33,6 @@ __all__ = [
     "MeetingIntelligenceRecord",
     "MVPSpecificationRecord",
     "MVPStatus",
+    "MVPApproval",
+    "ApprovalAction",
 ]
