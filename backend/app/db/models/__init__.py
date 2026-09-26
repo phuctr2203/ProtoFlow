@@ -18,6 +18,7 @@ from app.db.models.processing import (
     ProcessingJobType,
 )
 from app.db.models.project import Project, ProjectStatus
+from app.db.models.qa import QAReportRecord
 
 __all__ = [
     "Project",
@@ -40,4 +41,5 @@ __all__ = [
     "DesignRecord",
     "DevelopmentPlanRecord",
     "CodeGenerationRecord",
+    "QAReportRecord",
 ]

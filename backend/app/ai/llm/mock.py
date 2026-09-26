@@ -4,6 +4,7 @@ from app.ai.evaluation.expected import build
 from app.ai.evaluation.expected_design import build_design
 from app.ai.evaluation.expected_development import build_development
 from app.ai.evaluation.expected_mvp import build_mvp
+from app.ai.evaluation.expected_qa import build_qa
 from app.ai.schemas.design import SolutionDesign, UXDesign
 from app.ai.schemas.intelligence import (
     ActionItemList,
@@ -25,7 +26,9 @@ class MockLLMProvider:
 
     async def extract(self, *, kind, transcript_text, response_model, hint=None):  # type: ignore[no-untyped-def]
         by_kind: dict[str, BaseModel]
-        if kind.startswith("development"):
+        if kind.startswith("qa"):
+            by_kind = {"qa_test_cases": build_qa()}
+        elif kind.startswith("development"):
             by_kind = {"development_tasks": build_development()}
         elif kind.startswith("design"):
             design = build_design()

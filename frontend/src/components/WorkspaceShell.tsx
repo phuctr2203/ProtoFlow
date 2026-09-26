@@ -9,8 +9,8 @@ const TABS: Tab[] = [
   { label: 'Intelligence', to: null },
   { label: 'MVP', to: (id) => `/projects/${id}/mvp` },
   { label: 'Design', to: (id) => `/projects/${id}/design` },
-  { label: 'Development', to: null },
-  { label: 'QA', to: null },
+  { label: 'Development', to: (id) => `/projects/${id}/development` },
+  { label: 'QA', to: (id) => `/projects/${id}/qa` },
   { label: 'Demo', to: null },
 ]
 

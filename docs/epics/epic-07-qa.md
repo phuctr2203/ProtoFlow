@@ -2,7 +2,7 @@
 epic: 7
 title: Automated QA
 phase: 7
-status: Not Started
+status: Done
 depends_on: [6]
 fr_covered: [FR-16, FR-17]
 sources:
@@ -25,14 +25,14 @@ Epic 6 (AI-Assisted Development).
 
 ## Stories
 
-### Story 7.1 — Test generation (FR-16)
+### Story 7.1 — Test generation (FR-16) — Done
 **As** a consultant, **I want** test cases generated from requirements and acceptance criteria,
 **so that** validation traces back to what the client asked for.
 
 **Acceptance criteria:**
 - QA Agent generates test cases from the MVP's requirements and acceptance criteria (Idea.MD §33).
 
-### Story 7.2 — Test execution & evidence (FR-16)
+### Story 7.2 — Test execution & evidence (FR-16) — Done
 **As** a consultant, **I want** tests executed with recorded results, **so that** pass/fail is
 evidence-backed.
 
@@ -40,14 +40,14 @@ evidence-backed.
 - Tests are executed; each records PASS/FAIL with evidence and a failure reason where applicable
   (Idea.MD §33, §76).
 
-### Story 7.3 — End-to-end traceability (FR-17)
+### Story 7.3 — End-to-end traceability (FR-17) — Done
 **As** a consultant, **I want** a Requirement → Feature → Task → Code → Test chain, **so that**
 coverage is auditable end to end.
 
 **Acceptance criteria:**
 - The traceability chain from requirement through to test is maintained (Idea.MD §34).
 
-### Story 7.4 — Coverage reporting & job (FR-17)
+### Story 7.4 — Coverage reporting & job (FR-17) — Done
 **As** a consultant, **I want** a coverage rollup, **so that** I know whether the MVP is demo-ready.
 
 **Acceptance criteria:**
@@ -57,7 +57,7 @@ coverage is auditable end to end.
 - Every `MUST_HAVE` requirement has at least one mapped test before the Project can be marked
   demo-ready.
 
-### Story 7.5 — QA page (FR-20 partial)
+### Story 7.5 — QA page (FR-20 partial) — Done
 **As** a consultant, **I want** to view the QA report, **so that** I can judge readiness at a glance.
 
 **Acceptance criteria:**
