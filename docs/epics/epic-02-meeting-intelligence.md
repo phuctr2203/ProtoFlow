@@ -107,6 +107,33 @@ transcripts fail safe rather than produce false-confident output.
 - Noisy transcripts yield lower confidence / `NEEDS_REVIEW`, not false confidence.
 - LangSmith traces are visible for a full pipeline run.
 
+### Story 2.9 — Multi-provider LLM support (NFR9) — Done
+**As** the builder, **I want** to switch the LLM between the deterministic mock, an OpenAI-compatible
+API, and Ollama Cloud via config, **so that** I can run offline, on hosted OpenAI, or on Ollama
+without code changes.
+
+**Acceptance criteria:**
+- `LLM_PROVIDER` selects `mock` | `openai` | `ollama`; each provider reads its own key/base-url/model
+  env vars (`ai/llm/registry.py`, `openai_provider.py`, `ollama_provider.py`).
+- Ollama does not honour strict `json_schema` structured output, so the Ollama provider injects the
+  schema into the prompt, uses JSON-object mode, strips markdown fences, and retries once before
+  failing loudly — producing schema-valid Pydantic objects.
+- `docker-compose.yml` passes the provider env through to backend and worker; `.env.example`
+  documents every var (no secrets committed).
+- Test suite pins the mock provider (autouse fixture) so it never makes real API calls.
+
+### Story 2.10 — LangSmith observability integration — Done
+**As** the builder, **I want** the LangGraph chains and the underlying model calls traced to
+LangSmith, **so that** I can monitor and debug each pipeline run end to end.
+
+**Acceptance criteria:**
+- `LANGSMITH_TRACING` / `LANGSMITH_API_KEY` / `LANGSMITH_PROJECT` / `LANGSMITH_ENDPOINT` configured
+  via env and passed through to backend and worker (no key committed).
+- The OpenAI/Ollama client is wrapped with `wrap_openai` so each model call is a nested `llm` run
+  inside the LangGraph trace; tracing failures never break inference.
+- A full meeting-intelligence run produces one root `LangGraph` trace with each node as a child
+  chain run and each model call as a child llm run, verified against the LangSmith API.
+
 ## Epic Definition of Done
 
 - Each of the 5 mock transcripts produces intelligence with evidence per requirement, or an
