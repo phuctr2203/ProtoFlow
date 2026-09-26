@@ -4,14 +4,14 @@ import { Link, NavLink } from 'react-router-dom'
 type Tab = { label: string; to: ((projectId: string) => string) | null }
 
 const TABS: Tab[] = [
-  { label: 'Overview', to: null },
+  { label: 'Overview', to: (id) => `/projects/${id}/overview` },
   { label: 'Meetings', to: (id) => `/projects/${id}/meetings` },
   { label: 'Intelligence', to: null },
   { label: 'MVP', to: (id) => `/projects/${id}/mvp` },
   { label: 'Design', to: (id) => `/projects/${id}/design` },
   { label: 'Development', to: (id) => `/projects/${id}/development` },
   { label: 'QA', to: (id) => `/projects/${id}/qa` },
-  { label: 'Demo', to: null },
+  { label: 'Demo', to: (id) => `/projects/${id}/demo` },
 ]
 
 export function WorkspaceShell({

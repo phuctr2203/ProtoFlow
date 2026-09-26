@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 
 from app.ai.evaluation.expected import build
+from app.ai.evaluation.expected_demo import build_demo
 from app.ai.evaluation.expected_design import build_design
 from app.ai.evaluation.expected_development import build_development
 from app.ai.evaluation.expected_mvp import build_mvp
@@ -26,7 +27,9 @@ class MockLLMProvider:
 
     async def extract(self, *, kind, transcript_text, response_model, hint=None):  # type: ignore[no-untyped-def]
         by_kind: dict[str, BaseModel]
-        if kind.startswith("qa"):
+        if kind.startswith("demo"):
+            by_kind = {"demo": build_demo()}
+        elif kind.startswith("qa"):
             by_kind = {"qa_test_cases": build_qa()}
         elif kind.startswith("development"):
             by_kind = {"development_tasks": build_development()}

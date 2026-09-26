@@ -2,7 +2,7 @@
 epic: 8
 title: Demo Preparation
 phase: 8
-status: Not Started
+status: Done
 depends_on: [7]
 fr_covered: [FR-18, FR-19]
 sources:
@@ -25,14 +25,14 @@ Epic 7 (Automated QA).
 
 ## Stories
 
-### Story 8.1 — Demo agent (FR-18)
+### Story 8.1 — Demo agent (FR-18) — Done
 **As** a consultant, **I want** a demo objective and script generated, **so that** I can run a
 confident, structured demo.
 
 **Acceptance criteria:**
 - Demo Agent generates a demo objective and a step-by-step demo script (Idea.MD §35).
 
-### Story 8.2 — Synthetic demo data (FR-18)
+### Story 8.2 — Synthetic demo data (FR-18) — Done
 **As** a consultant, **I want** realistic sample data generated, **so that** the demo shows the
 product working on plausible inputs.
 
@@ -40,7 +40,7 @@ product working on plausible inputs.
 - Sample documents/users/questions/records are generated and clearly marked as synthetic
   (Idea.MD §36).
 
-### Story 8.3 — Honest status labeling (FR-19)
+### Story 8.3 — Honest status labeling (FR-19) — Done
 **As** a consultant, **I want** every capability honestly labeled, **so that** I never overpromise
 to a client.
 
@@ -49,7 +49,7 @@ to a client.
 - The demo script and demo package agree on labels — nothing scripted as real when marked
   `SIMULATED` (FR-19 consequence).
 
-### Story 8.4 — Demo job, API & page (FR-20 partial)
+### Story 8.4 — Demo job, API & page (FR-20 partial) — Done
 **As** a consultant, **I want** the demo package viewable with a launch action, **so that** I can
 run it from the workspace.
 

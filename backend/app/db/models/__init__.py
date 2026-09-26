@@ -1,4 +1,5 @@
 from app.db.models.approval import ApprovalAction, MVPApproval
+from app.db.models.demo import DemoRecord
 from app.db.models.design import DesignRecord
 from app.db.models.development import CodeGenerationRecord, DevelopmentPlanRecord
 from app.db.models.intelligence import MeetingIntelligenceRecord
@@ -42,4 +43,5 @@ __all__ = [
     "DevelopmentPlanRecord",
     "CodeGenerationRecord",
     "QAReportRecord",
+    "DemoRecord",
 ]
