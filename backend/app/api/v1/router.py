@@ -4,6 +4,7 @@ from app.api.v1 import (
     approvals,
     design,
     dev,
+    development,
     health,
     intelligence,
     meetings,
@@ -20,5 +21,6 @@ api_router.include_router(intelligence.router)
 api_router.include_router(mvp.router)
 api_router.include_router(approvals.router)
 api_router.include_router(design.router)
+api_router.include_router(development.router)
 api_router.include_router(webhooks.router)
 api_router.include_router(dev.router)

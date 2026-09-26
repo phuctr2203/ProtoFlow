@@ -25,6 +25,25 @@ services:
       timeout: 3s
       retries: 10
 
+  qdrant:
+    image: qdrant/qdrant:latest
+    ports:
+      - "6333:6333"
+    volumes:
+      - qdrantdata:/qdrant/storage
+
+  minio:
+    image: quay.io/minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:-protoflow}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:-protoflow}
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - miniodata:/data
+
   backend:
     build: ./backend
     environment:
@@ -49,6 +68,21 @@ services:
       LANGSMITH_API_KEY: ${LANGSMITH_API_KEY:-}
       LANGSMITH_PROJECT: ${LANGSMITH_PROJECT:-protoflow}
       LANGSMITH_ENDPOINT: ${LANGSMITH_ENDPOINT:-https://api.smith.langchain.com}
+      QDRANT_URL: ${QDRANT_URL:-http://qdrant:6333}
+      MINIO_ENDPOINT: ${MINIO_ENDPOINT:-minio:9000}
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY:-protoflow}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:-protoflow}
+      MINIO_BUCKET: ${MINIO_BUCKET:-protoflow-artifacts}
+      CODING_ENGINE: ${CODING_ENGINE:-mock}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      CLAUDE_CODE_OAUTH_TOKEN: ${CLAUDE_CODE_OAUTH_TOKEN:-}
+      WORKSPACE_ROOT: ${WORKSPACE_ROOT:-/tmp/protoflow-workspaces}
+      GIT_PUBLISHER: ${GIT_PUBLISHER:-mock}
+      GITHUB_TOKEN: ${GITHUB_TOKEN:-}
+      GITHUB_REPO: ${GITHUB_REPO:-}
+      SANDBOX_MODE: ${SANDBOX_MODE:-subprocess}
+      SANDBOX_TIMEOUT_SECONDS: ${SANDBOX_TIMEOUT_SECONDS:-120}
+      SANDBOX_IMAGE: ${SANDBOX_IMAGE:-python:3.12-slim}
     ports:
       - "8000:8000"
     depends_on:
@@ -56,6 +90,10 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+      qdrant:
+        condition: service_started
+      minio:
+        condition: service_started
 
   worker:
     build: ./backend
@@ -81,11 +119,30 @@ services:
       LANGSMITH_API_KEY: ${LANGSMITH_API_KEY:-}
       LANGSMITH_PROJECT: ${LANGSMITH_PROJECT:-protoflow}
       LANGSMITH_ENDPOINT: ${LANGSMITH_ENDPOINT:-https://api.smith.langchain.com}
+      QDRANT_URL: ${QDRANT_URL:-http://qdrant:6333}
+      MINIO_ENDPOINT: ${MINIO_ENDPOINT:-minio:9000}
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY:-protoflow}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:-protoflow}
+      MINIO_BUCKET: ${MINIO_BUCKET:-protoflow-artifacts}
+      CODING_ENGINE: ${CODING_ENGINE:-mock}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      CLAUDE_CODE_OAUTH_TOKEN: ${CLAUDE_CODE_OAUTH_TOKEN:-}
+      WORKSPACE_ROOT: ${WORKSPACE_ROOT:-/tmp/protoflow-workspaces}
+      GIT_PUBLISHER: ${GIT_PUBLISHER:-mock}
+      GITHUB_TOKEN: ${GITHUB_TOKEN:-}
+      GITHUB_REPO: ${GITHUB_REPO:-}
+      SANDBOX_MODE: ${SANDBOX_MODE:-subprocess}
+      SANDBOX_TIMEOUT_SECONDS: ${SANDBOX_TIMEOUT_SECONDS:-120}
+      SANDBOX_IMAGE: ${SANDBOX_IMAGE:-python:3.12-slim}
     depends_on:
       postgres:
         condition: service_healthy
       redis:
         condition: service_healthy
+      qdrant:
+        condition: service_started
+      minio:
+        condition: service_started
 
   frontend:
     build: ./frontend
@@ -98,3 +155,5 @@ services:
 
 volumes:
   pgdata:
+  qdrantdata:
+  miniodata:

@@ -40,6 +40,32 @@ class Settings(BaseSettings):
     dev_ollama_base_url: str | None = None
     dev_ollama_model: str | None = None
 
+    # Coding engine (Epic 6, Story 6.3) — "mock" scaffolds offline; "claude" wraps the Claude
+    # Agent SDK (needs anthropic_api_key, or claude_code_oauth_token for solo use only).
+    coding_engine: str = "mock"
+    anthropic_api_key: str | None = None
+    claude_code_oauth_token: str | None = None
+    workspace_root: str = "/tmp/protoflow-workspaces"
+
+    # Git publishing (Epic 6, Story 6.4) — "mock" offline; "github" opens a real PR (never merges).
+    git_publisher: str = "mock"
+    github_token: str | None = None
+    github_repo: str | None = None  # owner/repo
+
+    # Isolated execution (Epic 6, Story 6.5, NFR5) — generated code runs only via the sandbox.
+    sandbox_mode: str = "subprocess"  # subprocess | docker
+    sandbox_timeout_seconds: int = 120
+    sandbox_image: str = "python:3.12-slim"
+
+    # Epic 6 infra — vector retrieval (Qdrant) and artifact/object storage (MinIO), used by
+    # the generated document-Q&A MVP. Compose overrides the hosts with service names.
+    qdrant_url: str = "http://localhost:6333"
+    minio_endpoint: str = "localhost:9000"
+    minio_access_key: str = "protoflow"
+    minio_secret_key: str = "protoflow"
+    minio_bucket: str = "protoflow-artifacts"
+    minio_secure: bool = False
+
     # LangSmith tracing — monitors the LangGraph chains and LLM calls when enabled.
     langsmith_tracing: bool = False
     langsmith_api_key: str | None = None
