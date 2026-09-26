@@ -2,7 +2,7 @@
 epic: 9
 title: End-to-End Demo
 phase: 9
-status: Not Started
+status: Done
 depends_on: [8]
 fr_covered: [FR-20]
 validates: [SM-1]
@@ -27,7 +27,7 @@ Epic 8 (Demo Preparation) — and, transitively, every prior epic.
 
 ## Stories
 
-### Story 9.1 — Project workspace status view (FR-20)
+### Story 9.1 — Project workspace status view (FR-20) — Done
 **As** a consultant, **I want** one place showing where an engagement stands across all phases, **so
 that** I can see status at a glance.
 
@@ -36,7 +36,7 @@ that** I can see status at a glance.
   (Idea.MD §38, §39).
 - Each phase's status reflects the real state produced by Epics 1–8.
 
-### Story 9.2 — Full end-to-end walkthrough (SM-1)
+### Story 9.2 — Full end-to-end walkthrough (SM-1) — Done
 **As** the builder, **I want** to run the whole pipeline on one simulated meeting, **so that** I can
 prove the core promise.
 
@@ -44,14 +44,14 @@ prove the core promise.
 - A single simulated client meeting flows through the entire pipeline (Idea.MD §70, §85) without
   manual data-fixing along the way (validates SM-1 / FR-1…FR-19).
 
-### Story 9.3 — Close integration gaps
+### Story 9.3 — Close integration gaps — Done
 **As** the builder, **I want** any seams found during the walkthrough fixed, **so that** the flow is
 reliable, not one-off.
 
 **Acceptance criteria:**
 - Integration gaps found in Story 9.2 are fixed and the walkthrough re-runs cleanly.
 
-### Story 9.4 — Document the working demo
+### Story 9.4 — Document the working demo — Done
 **As** the builder, **I want** the working demo documented, **so that** it can be reproduced and
 shown.
 

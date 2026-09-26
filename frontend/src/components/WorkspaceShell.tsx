@@ -4,7 +4,7 @@ import { Link, NavLink } from 'react-router-dom'
 type Tab = { label: string; to: ((projectId: string) => string) | null }
 
 const TABS: Tab[] = [
-  { label: 'Overview', to: null },
+  { label: 'Overview', to: (id) => `/projects/${id}/overview` },
   { label: 'Meetings', to: (id) => `/projects/${id}/meetings` },
   { label: 'Intelligence', to: null },
   { label: 'MVP', to: (id) => `/projects/${id}/mvp` },
